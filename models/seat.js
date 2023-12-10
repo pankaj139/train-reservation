@@ -3,11 +3,7 @@ const mongoose = require('mongoose');
 const seatSchema = new mongoose.Schema({
   seatNumber: { type: String, unique: true, required: true },
   isAvailable: { type: Boolean, default: true },
-  reservation: {
-    reservedBy: String,
-    reservedAt: Date,
-  },
-  // Add other seat-related properties as needed
+  row: { type: Number, default: true }
 });
 
 const Seat = mongoose.model('Seat', seatSchema);

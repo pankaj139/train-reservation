@@ -42,6 +42,9 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+    ul{
+        max-height: 20px;
+    }
 
     .booked {
       background-color: lightcoral;
@@ -68,14 +71,23 @@
       </div>
       <button type="submit" class="btn btn-primary">Reserve</button>
     </form>
+    <%= error ? error : "" %>
+    <%= success ? success : "" %>
 
     <h2 class="mt-4">Seat Map</h2>
-    <ul class="mb-4">
-      <% seats.forEach((seat) => { %>
-        <li class="<%= seat.isAvailable ? '' : 'booked' %>">
-          <%= seat.seatNumber %>
-        </li>
-      <% }); %>
+    <% let currentRow; %>
+    <% seats.forEach((seat, index) => { %>
+      <% if (currentRow !== seat.row) { %>
+        <% if (index !== 0) { %>
+          </ul>
+        <% } %>
+        <ul>
+        <% currentRow = seat.row; %>
+      <% } %>
+      <li class="<%= seat.isAvailable ? '' : 'booked' %>">
+        <%= seat.seatNumber %>
+      </li>
+    <% }); %>
     </ul>
 
     <!-- Add Reset Button -->
