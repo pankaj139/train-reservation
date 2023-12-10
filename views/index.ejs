@@ -60,6 +60,7 @@
       <div class="mb-3">
         <label for="numSeats" class="form-label">Number of Seats to Reserve:</label>
         <select class="form-select" id="numSeats" name="numSeats" required>
+            <option value="" disabled selected>Select number of seats</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -92,7 +93,7 @@
 
     <!-- Add Reset Button -->
     <form action="/reset" method="get">
-      <button type="submit" class="btn btn-danger">Reset Database</button>
+      <button type="submit" class="btn btn-danger mt-4">Reset Seatmap</button>
     </form>
   </div>
 
