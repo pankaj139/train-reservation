@@ -123,7 +123,6 @@ app.get('/reset', async (req, res) => {
     }
   
     let result = await reserveSeats(numSeats)
-    console.log(result);
     const allSeats = await Seat.find();
     
     if(result.length){
