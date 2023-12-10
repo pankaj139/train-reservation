@@ -35,107 +35,6 @@ async function generateSeats() {
 
 }
 
-// async function reserveSeats(numSeats) {
-//     const seats = await Seat.find({ isAvailable: true });
-//     let bestCombination = [];
-//     let minRowsInvolved = Number.MAX_VALUE;
-  
-//     // Function to find available seats in a row
-//     const findAvailableSeatsInRow = (row) => {
-//       return seats.filter(seat => seat.row === row && seat.isAvailable);
-//     };
-  
-//     // Check each combination of rows
-//     for (let startRow = 0; startRow < 12; startRow++) {
-//       let currentCombination = [];
-//       let seatsCount = 0;
-//       let rowsInvolved = 0;
-  
-//       for (let row = startRow; row < 12 && seatsCount < numSeats; row++) {
-//         const availableSeats = findAvailableSeatsInRow(row);
-//         if (availableSeats.length > 0) {
-//           rowsInvolved++;
-//           seatsCount += availableSeats.length;
-//           currentCombination.push(...availableSeats);
-//         }
-//       }
-  
-//       // Check if this combination is better than the previous best
-//       if (seatsCount >= numSeats && rowsInvolved < minRowsInvolved) {
-//         bestCombination = currentCombination.slice(0, numSeats);
-//         minRowsInvolved = rowsInvolved;
-//       }
-//     }
-  
-//     // Reserve the best combination of seats found
-//     if (bestCombination.length >= numSeats) {
-//       for (const seat of bestCombination) {
-//         seat.isAvailable = false;
-//       }
-  
-//       await Seat.updateMany(
-//         { seatNumber: { $in: bestCombination.map(seat => seat.seatNumber) } },
-//         { $set: { isAvailable: false } }
-//       );
-  
-//       return bestCombination.map(seat => seat.seatNumber);
-//     } else {
-//       return []; // No available combination found
-//     }
-//   }
-  
-
-// async function reserveSeats(numSeats) {
-//     const seats = await Seat.find({ isAvailable: true });
-//     let bestCombination = [];
-//     let minRowSpan = Number.MAX_VALUE;
-
-//     // Function to find available seats in a row
-//     const findAvailableSeatsInRow = (row) => {
-//         return seats.filter(seat => seat.row === row && seat.isAvailable);
-//     };
-
-//     // Iterate through all rows to find the best combination
-//     for (let startRow = 0; startRow < 12; startRow++) {
-//         for (let endRow = startRow; endRow < 12; endRow++) {
-//             let currentCombination = [];
-//             let seatsCount = 0;
-
-//             for (let row = startRow; row <= endRow; row++) {
-//                 const availableSeats = findAvailableSeatsInRow(row);
-//                 seatsCount += availableSeats.length;
-//                 currentCombination.push(...availableSeats);
-
-//                 if (seatsCount >= numSeats) {
-//                     let rowSpan = endRow - startRow + 1;
-//                     if (rowSpan < minRowSpan) {
-//                         bestCombination = currentCombination.slice(0, numSeats);
-//                         minRowSpan = rowSpan;
-//                     }
-//                     break; // Stop adding seats as we have enough
-//                 }
-//             }
-//         }
-//     }
-
-//     // Reserve the best combination of seats found
-//     if (bestCombination.length >= numSeats) {
-        
-//         for (const seat of bestCombination) {
-//             seat.isAvailable = false;
-//         }
-
-//         await Seat.updateMany(
-//             { seatNumber: { $in: bestCombination.map(seat => seat.seatNumber) } },
-//             { $set: { isAvailable: false } }
-//         );
-
-//         return bestCombination.map(seat => seat.seatNumber);
-//     } else {
-//         return []; // No available combination found
-//     }
-// }
-
 async function reserveSeats(numSeats) {
     const seats = await Seat.find({ isAvailable: true });
     let bestCombination = [];
@@ -204,6 +103,10 @@ async function reserveSeats(numSeats) {
 
 // Routes
 app.get('/', async (req, res) => {
+    const seats = await Seat.find();
+    res.render('index', { seats , success:"", error: ""});
+  });
+app.get('/reserve', async (req, res) => {
     const seats = await Seat.find();
     res.render('index', { seats , success:"", error: ""});
   });
